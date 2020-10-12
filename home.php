@@ -1,3 +1,6 @@
+<?php
+    session_start(); 
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -56,7 +59,9 @@
 					</li>
 					
 					<li class="nav-item ">
-						<a class="nav-link" href="index.html"> Wyloguj się! </a>
+						<a class="nav-link" href="index.php"> 
+                            <?php echo "Wyloguj się! (".$_SESSION['user'].")"; ?> 
+                        </a>
 						
 					</li>
 				</ul>
@@ -197,12 +202,10 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-        <button type="button" class="btn btn-primary">Zmień hasło!</button>
+          <button type="button" class="btn btn-primary">Zmień hasło!</button>
       </div>
     </div>
   </div>
-</div>	
-
-
+</div>	    
 </body>
 </html>

@@ -12,7 +12,7 @@
 <body>
 	<div id="container">
 		<img src="img/logo.png" alt="logo">
-	<form>
+	<form action="login.php" method="post">
 		<input type="text" name="login" placeholder="login" onfocus="this.placeholder=''" onblur="this.placeholder='login'" />
 		<input type="password" name="password"  placeholder="hasło" onfocus="this.placeholder=''" onblur="this.placeholder='hasło'"/>
 		<input type="submit" value="Zaloguj się"/>
