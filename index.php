@@ -1,3 +1,12 @@
+<?php
+    session_start(); 
+    if ((isset($_SESSION['loggedIn'])) && ($_SESSION['loggedIn'] == true))
+    {
+        header('Location: home.php');
+        exit();
+    }
+?>
+
 <!DOCTYPE HTML>
 <html lang="pl">
 <head>
@@ -19,5 +28,13 @@
 		<input type="button" onClick="location.href='SignUp.html'" value="Zarejestruj się">
 	</form>
 	</div>
+    <div id="loginError">
+        <?php
+            if(isset($_SESSION['blad']))
+            echo $_SESSION['blad'];
+        ?>
+    </div>
+
+
 </body>
 </html>

@@ -1,6 +1,12 @@
 <?php
     session_start(); 
+    if(!isset($_SESSION['loggedIn']))
+    {
+        header('Location: index.php');
+        exit();
+    }
 ?>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -59,7 +65,7 @@
 					</li>
 					
 					<li class="nav-item ">
-						<a class="nav-link" href="index.php"> 
+						<a class="nav-link" href="logOut.php"> 
                             <?php echo "Wyloguj się! (".$_SESSION['user'].")"; ?> 
                         </a>
 						
