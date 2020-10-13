@@ -2,7 +2,7 @@
 
     session_start();
 
-    if((!isset($_POST['login'])) || (!isset($_POST['haslo'])))
+    if((!isset($_POST['login'])) && (!isset($_POST['haslo'])))
     {
         header('Location: index.php');
         exit();
@@ -21,9 +21,15 @@
         $login = $_POST['login'];
         $pass = $_POST['password'];
         
+        $login = htmlentities($login, ENT_QUOTES, "UTF-8");
+        $pass = htmlentities($pass, ENT_QUOTES, "UTF-8");
+        
         $sql = "SELECT*FROM users WHERE login='$login' AND password='$pass'";
         
-        if ($result = $connection->query($sql))
+        if ($result = $connection->query(
+            sprintf("SELECT*FROM users WHERE login='%s' AND password='%s'",
+            mysqli_real_escape_string($connection,$login),
+            mysqli_real_escape_string($connection,$pass))))
         {
             $ilu_userow = $result->num_rows;
             if($ilu_userow>0)
