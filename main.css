@@ -24,12 +24,6 @@ h1
 	width: 100%;
 	height: auto;
 }
-/*
-.navbar-nav li:hover>.dropdown-menu
-{
-	display: block;
-}
-*/
 
 .navbar-nav
 {
@@ -68,7 +62,7 @@ h1
 
 .modal-header
 {
-   color: #4d4d4d;
+   color: black;
 }
 .modal-body
 {

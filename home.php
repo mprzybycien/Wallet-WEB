@@ -1,3 +1,12 @@
+<?php
+    session_start(); 
+    if(!isset($_SESSION['loggedIn']))
+    {
+        header('Location: index.php');
+        exit();
+    }
+?>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -9,7 +18,7 @@
 	<meta name="description" content="Narzędzie do zarządzania budżetem">
 	<meta name="keywords" content="portfel, bank, wpływy, wydatki, dochody, odchody">
 	<meta name="author" content="Mateusz Przybycień">
-	<meta http-equiv="X-Ua-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	
 	<link rel="shortcut icon" href="img/logo.png">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -56,7 +65,9 @@
 					</li>
 					
 					<li class="nav-item ">
-						<a class="nav-link" href="index.html"> Wyloguj się! </a>
+						<a class="nav-link" href="logOut.php"> 
+                            <?php echo "Wyloguj się! (".$_SESSION['user'].")"; ?> 
+                        </a>
 						
 					</li>
 				</ul>
@@ -197,12 +208,10 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-        <button type="button" class="btn btn-primary">Zmień hasło!</button>
+          <button type="button" class="btn btn-primary">Zmień hasło!</button>
       </div>
     </div>
   </div>
-</div>	
-
-
+</div>	    
 </body>
 </html>

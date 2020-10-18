@@ -1,89 +1,112 @@
-body
+body 
 {
-	/* background pattern from subtlepatterns.com*/
-	background-image: url("img/bg.png");
-	color: #00cc00;
-	font-size: 20px;
-	font-family: 'Open Sans', sans-serif;
+    /* background pattern from subtlepatterns.com*/
+    background-image: url("img/bg.png");
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
 }
 
-img
+.container 
 {
-	display: block;
-	width: 25%;
-	margin-left: auto;
-	margin-right: auto;
-	padding-bottom: 45px;
+    background-color: #444444;
+    color: #ffffff;
+    width: 300px;
+    padding: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    -webkit-box-shadow: 0px 0px 13px 3px rgba(204, 204, 204, 0.55);
+    -moz-box-shadow: 0px 0px 13px 3px rgba(204, 204, 204, 0.55);
+    box-shadow: 0px 0px 13px 3px rgba(204, 204, 204, 0.55);
 }
 
-#container
+.loginError 
 {
-	background-color: #444444;
-	color: #ffffff;
-	width: 300px;
-	padding: 50px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 100px;
-	-webkit-box-shadow: 0px 0px 13px 3px rgba(204,204,204,0.55);
-	-moz-box-shadow: 0px 0px 13px 3px rgba(204,204,204,0.55);
-	box-shadow: 0px 0px 13px 3px rgba(204,204,204,0.55);
+    color: red;
+    padding: 5px;
+    font-size: 20px;
+    margin-top: 20px;;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+}
+
+.signUpError 
+{
+    color: red;
+    padding: 5px;
+    font-size: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+}
+
+img {
+    display: block;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 45px;
 }
 
 input[type=text],
-input[type=password] /*wystylizuje tylko wskazane rodzaje inputów*/
-{
-	width: 300px;
-	background-color: #efefef;
-	color: #666;
-	border: 2px solid #ddd;
-	border-radius: 5px;
-	font-size: 20px;
-	padding: 10px;
-	box-sizing: border-box; /*ustawi input taki jak przycisk*/
-	outline: none; /* obwodka przy aktywności pol*/
-	margin-top: 10px;
+input[type=password]
+
+/*wystylizuje tylko wskazane rodzaje inputów*/
+    {
+    width: 300px;
+    background-color: #efefef;
+    color: #666;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    /*ustawi input taki jak przycisk*/
+    outline: none;
+    /* obwodka przy aktywności pol*/
+    margin-top: 10px;
 }
 
 input[type=text]:focus,
-input[type=password]:focus /*wyróznienie edytowanego pola*/
-{
-	-webkit-box-shadow: 0px 0px 10px 3px rgba(204,204,204,0.55);
-	-moz-box-shadow: 0px 0px 10px 3px rgba(204,204,204,0.55);
-	box-shadow: 0px 0px 10px 3px rgba(204,204,204,0.55);
-	border:2px solid #3388FF;
-	background-color:  #CDE4FF;
-	color: #000099;
+input[type=password]:focus
+
+/*wyróznienie edytowanego pola*/
+    {
+    -webkit-box-shadow: 0px 0px 10px 3px rgba(204, 204, 204, 0.55);
+    -moz-box-shadow: 0px 0px 10px 3px rgba(204, 204, 204, 0.55);
+    box-shadow: 0px 0px 10px 3px rgba(204, 204, 204, 0.55);
+    border: 2px solid #3388FF;
+    background-color: #CDE4FF;
+    color: #000099;
 }
 
 input[type=submit],
-input[type=button]
-{
-	width: 300px;
-	background-color: #3388FF;
-	font-size: 20px;
-	color: white;
-	padding: 15px 10px; /*padding kolejno w pionie i w poziomie*/
-	margin-top: 20px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	letter-spacing: 2px;
-	outline: none;
+input[type=button] {
+    width: 300px;
+    background-color: #3388FF;
+    font-size: 20px;
+    color: white;
+    padding: 15px 10px;
+    /*padding kolejno w pionie i w poziomie*/
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    outline: none;
 }
 
 input[type=button]:focus,
-input[type=submit]:focus
-{
-	-webkit-box-shadow: 0px 0px 15px 5px rgba(204,204,204,0.55);
-	-moz-box-shadow: 0px 0px 15 5px rgba(204,204,204,0.55);
-	box-shadow: 0px 0px 15px 5px rgba(204,204,204,0.55);
+input[type=submit]:focus {
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(204, 204, 204, 0.55);
+    -moz-box-shadow: 0px 0px 15 5px rgba(204, 204, 204, 0.55);
+    box-shadow: 0px 0px 15px 5px rgba(204, 204, 204, 0.55);
 }
 
 /*zmiana koloru przy najezdzaniu kursorem*/
 
 input[type=submit]:hover,
-input[type=button]:hover
-{
-	background-color: #3E96FF;
+input[type=button]:hover {
+    background-color: #3E96FF;
 }
