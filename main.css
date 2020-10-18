@@ -62,13 +62,11 @@ h1
 
 .modal-header
 {
-   color: #4d4d4d;
-    background-color: #444444 !important;
+   color: black;
 }
 .modal-body
 {
    color: black;
-    background-color: #444444 !important;
 }
 
 input[type=text],

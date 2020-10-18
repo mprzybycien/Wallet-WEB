@@ -18,7 +18,7 @@
 	<meta name="description" content="Narzędzie do zarządzania budżetem">
 	<meta name="keywords" content="portfel, bank, wpływy, wydatki, dochody, odchody">
 	<meta name="author" content="Mateusz Przybycień">
-	<meta http-equiv="X-Ua-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	
 	<link rel="shortcut icon" href="img/logo.png">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
