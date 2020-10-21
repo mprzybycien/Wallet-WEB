@@ -128,27 +128,39 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+    <form>
       <div class="modal-body">
-        <form>
-			Kwota transakcji, PLN: <br/> <input type="text" name="amount" placeholder="Kwota" /> <br/>
-			Data transakcji: <br/> <input type="date" name="date"  /> <br/>
-			Rodzaj transakcji: <br/> <select class="payment-describe">
-				<option>Pensja</option>
-				<option>Odsetki lokaty</option>
-				<option>Prowizja</option>
-				<option>Premia</option>
-			</select> <br/>
-			Forma płatnosci: <br/> <select>
-				<option>Gotówka</option>
-				<option>Przelew</option>
-			</select>
-		</form>
-      </div>
+			Kwota transakcji, PLN: <br/> <input type="text" name="incomeAmount" placeholder="Kwota" /> <br/>
+			Źródło przychodu: <br/>                 
+                    <?php
+                        require_once "connect.php";
+                        $connection =  @new mysqli($host, $db_user, $db_password, $db_name);
+                        $catergories = $connection->query("SELECT*FROM incomes_category_default");
+                        $howManyRows = $catergories->num_rows;
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary">Dodaj!</button>
+                        echo '<select name="incomeSource">';
+                        for ($i = 1; $i <= $howManyRows; $i++) 
+                        {
+                            $categoryRecord = $catergories->fetch_assoc();
+                            echo '<option>';
+                            echo $categoryRecord['name'];
+                            echo '</option>';
+                        }
+                        echo '<option> Dodaj nową kategorię </option>';
+                        echo '</select>';
+                    ?> 
+                <br/>
+                Data transakcji: <br />
+                <input type="date" value="<?php echo date('Y-m-d'); ?>" name="incomeDate">  
+                Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz" /> <br/>
+		
       </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        <!--<button type="submit" class="btn btn-primary">Dodaj!</button>-->
+          <input type="submit" value="Dodaj!" class="btn btn-secondary" data-dismiss="modal">
+        </div>
+        </form>
     </div>
   </div>
 </div>

@@ -91,3 +91,22 @@ select:focus
 	background-color:  #CDE4FF;
 	color: #000099;
 }
+
+input[type=submit]
+{
+    width: 100px;
+    height: 38px;
+    background-color: #0563e8;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 4px;
+}
+
+input[type=submit]:hover
+{
+    background-color: #3388FF;
+}
