@@ -48,7 +48,7 @@
 				<ul class="navbar-nav mr-auto">
 				
 					<li class="nav-item ">
-						<a class="nav-link" href="home.html"> Home </a>
+						<a class="nav-link" href="home.php"> Home </a>
 					</li>
 				
 					<li class="nav-item dropdown ">
@@ -68,7 +68,6 @@
 						<a class="nav-link" href="logOut.php"> 
                             <?php echo "Wyloguj się! (".$_SESSION['user'].")"; ?> 
                         </a>
-						
 					</li>
 				</ul>
 			</div>
@@ -76,6 +75,7 @@
 		</nav>
 	
 	</header>
+
 	<main>
 		<section class="tiles">
 			<div class="container-fluid">
@@ -146,7 +146,6 @@
                             echo $categoryRecord['name'];
                             echo '</option>';
                         }
-                        echo '<option> Dodaj nową kategorię </option>';
                         echo '</select>';
                     ?> 
                 <br/>
@@ -211,19 +210,35 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form>
+        <form action="changePass.php" method="post">
+            <div class="modal-body">
+            <input type="password" name="oldPassword" placeholder="Aktualne hasło" /> <br/>
 			<input type="password" name="newPassword" placeholder="Nowe hasło" /> <br/>
-			<input type="password" name="ConfirmPassword" placeholder="Potwierdź hasło" /> <br/>
-		</form>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-          <button type="button" class="btn btn-primary">Zmień hasło!</button>
-      </div>
+			<input type="password" name="ConfirmedPassword" placeholder="Potwierdź hasło" /> <br/>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+            <input type="submit" value="Zmień!">
+            </div>
+            </div>
+        </form>
     </div>
   </div>
-</div>	    
+</div>
+<div class=error>
+    <?php 
+    if(isset($_SESSION['formError'])) 
+        echo $_SESSION['formError']; 
+    ?>
+</div>
+<div class=success>
+    <?php 
+    if(isset($_SESSION['formSuccess'])) 
+        echo $_SESSION['formSuccess']; 
+    ?>
+</div>
+    
+<?php unset ($_SESSION['formError']);unset ($_SESSION['formSuccess']); ?>
+    
 </body>
 </html>
+
