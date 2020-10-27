@@ -55,7 +55,10 @@
 						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"> Zarządzaj kontem  </a>
 						
 						<div class="dropdown-menu" aria-labelledby="submenu">
-							<a class="dropdown-item" data-toggle="modal" href="#" data-target="#changePassModal"> Zmień hasło </a>
+							<a class="dropdown-item" data-toggle="modal" data-target="#changePassModal"> Zmień hasło </a>
+                            <a class="dropdown-item" href="incomesCategories.php"> Kategorie przychodów </a>
+                            <a class="dropdown-item" href="expensesCategories.php"> Kategorie wydatków </a>
+                            <a class="dropdown-item" href="methodsCategories.php"> Kategorie metod płatności </a>
 						</div>
 						
 					</li>
@@ -134,19 +137,42 @@
 			Źródło przychodu: <br/>                 
                     <?php
                         require_once "connect.php";
-                        $connection =  @new mysqli($host, $db_user, $db_password, $db_name);
-                        $catergories = $connection->query("SELECT*FROM incomes_category_default");
-                        $howManyRows = $catergories->num_rows;
-
-                        echo '<select name="incomeSource">';
-                        for ($i = 1; $i <= $howManyRows; $i++) 
+                        mysqli_report(MYSQLI_REPORT_STRICT);
+                        try
                         {
-                            $categoryRecord = $catergories->fetch_assoc();
-                            echo '<option>';
-                            echo $categoryRecord['name'];
-                            echo '</option>';
+                            $connection =  @new mysqli($host, $db_user, $db_password, $db_name);
+                            if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());    
+                            
+                            $id = $_SESSION['id'];
+                            $catergories = $connection->query
+                            ("
+                            SELECT name FROM incomes_category_default
+                            UNION
+                            SELECT name FROM incomes_category_assigned_to_users
+                            WHERE incomes_category_assigned_to_users.user_id='$id'
+                            ORDER BY name ASC
+                            ");
+
+                            if(!$catergories) throw new Exception($connection->error);
+                            $howManyRows = $catergories->num_rows;
+
+                            echo '<select name="incomeSource">';
+                            for ($i = 1; $i <= $howManyRows; $i++) 
+                            {
+                                $categoryRecord = $catergories->fetch_assoc();
+                                echo '<option>';
+                                echo $categoryRecord['name'];
+                                echo '</option>';
+                            }
+                            echo '</select>';
+                            $connection->close();
                         }
-                        echo '</select>';
+                        catch(Exception $e)
+                        {
+                            echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności</span>';
+                            echo '<br />Informacja deweloperska:'.$e;
+                        }
+            
                     ?> 
                 <br/>
                 Data transakcji: <br />
@@ -226,19 +252,16 @@
 </div>
 <div class=error>
     <?php 
-    if(isset($_SESSION['formError'])) 
-        echo $_SESSION['formError']; 
+    if(isset($_SESSION['formError'])) echo $_SESSION['formError'];  
+    unset ($_SESSION['formError']);
     ?>
 </div>
 <div class=success>
     <?php 
-    if(isset($_SESSION['formSuccess'])) 
-        echo $_SESSION['formSuccess']; 
+    if(isset($_SESSION['formSuccess'])) echo $_SESSION['formSuccess'];
+    unset ($_SESSION['formSuccess']);
     ?>
 </div>
-    
-<?php unset ($_SESSION['formError']);unset ($_SESSION['formSuccess']); ?>
-    
 </body>
 </html>
 

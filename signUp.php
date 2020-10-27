@@ -123,6 +123,24 @@
                     if($connection->query("INSERT INTO users VALUES (NULL, '$login', '$pass_hash', '$email')"))
                     {
                         $_SESSION['successSignUp']=true;
+                        /*
+                        $userId = $connection->query("SELECT*FROM users WHERE login='$login'");
+                        if(!$userId) throw new Exception($connection->error);
+                        $record = $userId->fetch_assoc();
+                        $id = $record['id'];
+
+                        $incomesCategories = $connection->query("SELECT * FROM incomes_category_default");
+                        if(!$incomesCategories) throw new Exception($connection->error);
+                        
+                        $howManyCatergoryRecords = $incomesCategories->num_rows;
+                        for ($i = 1; $i <= $howManyCatergoryRecords; $i++) 
+                        {
+                            $categoryRecord = $incomesCategories->fetch_assoc();
+                            $name = $categoryRecord['name'];
+                            $connection->query("INSERT INTO incomes_category_assigned_to_users VALUES (NULL, '$id', '$name')");
+                        }
+                        */
+                        
                         header('Location: welcome.php');
                     }
                     else
@@ -130,7 +148,7 @@
                         throw new Exception($connection->error);
                     }
                 }
-                
+            
                 $connection->close();
             }
         }
