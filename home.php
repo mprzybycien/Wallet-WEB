@@ -80,6 +80,7 @@
 	</header>
 
 	<main>
+        <!--<div class="mainContainer">-->
 		<section class="tiles">
 			<div class="container-fluid">
 				<div class="row">
@@ -113,6 +114,7 @@
 					</div>
 				</div>
 		</section>
+       <!-- </div>-->
 		
 	</main>
 	
@@ -131,9 +133,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-    <form>
+    <form action="addNewIncome.php" method="post">
       <div class="modal-body">
-			Kwota transakcji, PLN: <br/> <input type="text" name="incomeAmount" placeholder="Kwota" /> <br/>
+			Kwota transakcji, PLN: <br/> <input value="0" type="number" name="incomeAmount" step="0.01" min="0.01" /> <br/>
 			Źródło przychodu: <br/>                 
                     <?php
                         require_once "connect.php";
@@ -146,8 +148,6 @@
                             $id = $_SESSION['id'];
                             $catergories = $connection->query
                             ("
-                            SELECT name FROM incomes_category_default
-                            UNION
                             SELECT name FROM incomes_category_assigned_to_users
                             WHERE incomes_category_assigned_to_users.user_id='$id'
                             ORDER BY name ASC
@@ -172,7 +172,6 @@
                             echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności</span>';
                             echo '<br />Informacja deweloperska:'.$e;
                         }
-            
                     ?> 
                 <br/>
                 Data transakcji: <br />
@@ -183,7 +182,7 @@
       <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
         <!--<button type="submit" class="btn btn-primary">Dodaj!</button>-->
-          <input type="submit" value="Dodaj!" class="btn btn-secondary" data-dismiss="modal">
+          <input type="submit" value="Dodaj!">
         </div>
         </form>
     </div>
@@ -200,29 +199,75 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
-			Kwota transakcji, PLN: <br/> <input type="text" name="amount" placeholder="Kwota" /> <br/>
+        <form method="post" action="addNewExpense.php">
+			Kwota transakcji, PLN: <br/> <input value="0" type="number" name="incomeAmount" step="0.01" min="0.01" /> <br/> 
 			Data transakcji: <br/> <input type="date" name="date"  /> <br/>
-			Cel: <br/> <select class="payment-describe">
-				<option>Czynsz</option>
-				<option>Prąd</option>
-				<option>Kablówka</option>
-				<option>Żywność</option>
-				<option>Ubrania</option>
-				<option>Rozrywki</option>
-			</select> <br/>
-			Forma płatnosci: <br/> <select>
-				<option>Płatność kartą</option>
-				<option>Płatność gotówką</option>
-				<option>Przelew</option>
-			</select>
-		</form>
-      </div>
+			Cel: <br />
+            <?php
+                    require_once "connect.php";
+                        mysqli_report(MYSQLI_REPORT_STRICT);
+                        try
+                        {
+                            $connection =  @new mysqli($host, $db_user, $db_password, $db_name);
+                            if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());    
+                            $id = $_SESSION['id'];
+                        
+                            $catergories = $connection->query
+                            ("
+                            SELECT name FROM expenses_category_assigned_to_users
+                            WHERE expenses_category_assigned_to_users.user_id='$id'
+                            ORDER BY name ASC
+                            ");
 
+                            if(!$catergories) throw new Exception($connection->error);
+                            $howManyRows = $catergories->num_rows;
+
+                            echo '<select name="expenseTarget">';
+                            for ($i = 1; $i <= $howManyRows; $i++) 
+                            {
+                                $categoryRecord = $catergories->fetch_assoc();
+                                echo '<option>';
+                                echo $categoryRecord['name'];
+                                echo '</option>';
+                            }
+                            echo '</select> <br />';
+                            
+                            
+                            $catergories = $connection->query
+                            ("
+                            SELECT name FROM payment_methods_assigned_to_users
+                            WHERE payment_methods_assigned_to_users.user_id='$id'
+                            ORDER BY name ASC
+                            ");
+
+                            if(!$catergories) throw new Exception($connection->error);
+                            $howManyRows = $catergories->num_rows;
+                            echo 'Metoda płatności <br />';
+                            echo '<select name="paymentMethods">';
+                            for ($i = 1; $i <= $howManyRows; $i++) 
+                            {
+                                $categoryRecord = $catergories->fetch_assoc();
+                                echo '<option>';
+                                echo $categoryRecord['name'];
+                                echo '</option>';
+                            }
+                            echo '</select>';
+                            
+                            $connection->close();
+                        }
+                        catch(Exception $e)
+                        {
+                            echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności</span>';
+                            echo '<br />Informacja deweloperska:'.$e;
+                        }
+                    ?> 
+            Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz" /> <br/>
+            
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary">Dodaj!</button>
+        <input type="submit" value="Dodaj!">
       </div>
+    </form>
     </div>
   </div>
 </div>

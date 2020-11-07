@@ -123,7 +123,7 @@
                     if($connection->query("INSERT INTO users VALUES (NULL, '$login', '$pass_hash', '$email')"))
                     {
                         $_SESSION['successSignUp']=true;
-                        /*
+                        
                         $userId = $connection->query("SELECT*FROM users WHERE login='$login'");
                         if(!$userId) throw new Exception($connection->error);
                         $record = $userId->fetch_assoc();
@@ -139,7 +139,29 @@
                             $name = $categoryRecord['name'];
                             $connection->query("INSERT INTO incomes_category_assigned_to_users VALUES (NULL, '$id', '$name')");
                         }
-                        */
+                        
+                        $expensesCategories = $connection->query("SELECT * FROM expenses_category_default");
+                        if(!$expensesCategories) throw new Exception($connection->error);
+                        
+                        $howManyCatergoryRecords = $expensesCategories->num_rows;
+                        for ($i = 1; $i <= $howManyCatergoryRecords; $i++) 
+                        {
+                            $categoryRecord = $expensesCategories->fetch_assoc();
+                            $name = $categoryRecord['name'];
+                            $connection->query("INSERT INTO expenses_category_assigned_to_users VALUES (NULL, '$id', '$name')");
+                        }
+                        
+                        $methods = $connection->query("SELECT * FROM payment_methods_default");
+                        if(!$methods) throw new Exception($connection->error);
+                        
+                        $howManyCatergoryRecords = $methods->num_rows;
+                        for ($i = 1; $i <= $howManyCatergoryRecords; $i++) 
+                        {
+                            $categoryRecord = $methods->fetch_assoc();
+                            $name = $categoryRecord['name'];
+                            $connection->query("INSERT INTO payment_methods_assigned_to_users VALUES (NULL, '$id', '$name')");
+                        }
+                        
                         
                         header('Location: welcome.php');
                     }
