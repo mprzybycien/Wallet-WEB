@@ -42,8 +42,9 @@ else {
                 $_SESSION['formSuccess'] = "Dodano nowy przychód!";
                 header('Location: home.php');
             }
+    $connection->close();
         }
-        $connection->close();
+        
 }
 catch(Exception $e)
 {

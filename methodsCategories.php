@@ -83,7 +83,7 @@
                         $name = $categoryRecord['name'];
                         $id = $categoryRecord['id'];
                         
-                        echo '<div class=categoryName id=C'.$id.'>'.$name.'    '.$id.'</div>';
+                        echo '<div class=categoryName id=C'.$id.'>'.$name.'    </div>';
                         echo '<div class=categoryEdit id=E'.$id.'><a href="#" class=buttonLink title="Edytuj"><i class="icon-pencil"></i></a></div>';
                         echo'<div class=categoryRemove id=R'.$id.'><a href="#" class=buttonLink title="Usuń"><i class="icon-trash"></i></a></div>';
                         echo '<div style="clear: both;"></div>';

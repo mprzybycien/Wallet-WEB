@@ -90,6 +90,44 @@
 							<div class="img1">
 							<img src="img/income.png" alt="income">
 							</div>
+                            <div class="incomeTile">
+                                <div class="tileDescribe">Suma przychodów w bierzącym miesiącu:</div>
+                            
+                                <?php
+                                require_once "connect.php";
+                                mysqli_report(MYSQLI_REPORT_STRICT);
+                                try
+                                {
+                                $connection = @new mysqli( $host, $db_user, $db_password, $db_name );
+
+                                if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());
+
+    
+                                else {
+                                $monthStartDate = date('Ym00');
+                                $actualDate = date('Ymd');
+                                $userId = $_SESSION['id'];
+                                    
+                                $result = $connection->query("SELECT incomes.user_id, SUM(incomes.amount) AS incomeSum FROM incomes WHERE date_of_income>='$monthStartDate'");
+                                
+                                $record = $result->fetch_assoc();
+                                    
+                                $_SESSION['incomeSum'] = $record['incomeSum'];   
+                                echo $_SESSION['incomeSum']." zł";
+                                
+                                $connection->close();
+                                
+                                }
+                                }
+                                catch(Exception $e)
+                                {
+                                    echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności i prosimy o rejestrację w innym terminie </span>';
+                                    echo '<br />Informacja deweloperska:'.$e;
+                                }
+                                
+                                ?>
+                                
+                            </div>
 						</div>
 						
 					</div>
@@ -99,6 +137,42 @@
 							<div class="img1">
 								<img src="img/expense.png" alt="expense">
 							</div>
+                            <div class="expenseTile">
+                                <div class="tileDescribe">
+                                    Suma wydatków w bierzącym miesiącu:</div>
+                                    <?php
+                                    require_once "connect.php";
+                                    mysqli_report(MYSQLI_REPORT_STRICT);
+                                    try
+                                    {
+                                    $connection = @new mysqli( $host, $db_user, $db_password, $db_name );
+
+                                    if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());
+
+
+                                    else {
+                                    $monthStartDate = date('Ym00');
+                                    $actualDate = date('Ymd');
+                                    $userId = $_SESSION['id'];
+
+                                    $result = $connection->query("SELECT expenses.user_id, SUM(expenses.amount) AS expenseSum FROM expenses WHERE date_of_expense>='$monthStartDate'");
+
+                                    $record = $result->fetch_assoc();
+                                    $_SESSION['expenseSum'] = $record['expenseSum'];
+                                    echo $_SESSION['expenseSum']." zł";
+
+                                    $connection->close();
+
+                                    }
+                                    }
+                                    catch(Exception $e)
+                                    {
+                                        echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności i prosimy o rejestrację w innym terminie </span>';
+                                        echo '<br />Informacja deweloperska:'.$e;
+                                    }
+
+                                    ?>
+                            </div>
 						</div>
 					</div>
 					<div class="col-md-4 btn btn-grey">
@@ -108,6 +182,16 @@
 							<div class="img1">
 								<img src="img/chart.png" alt="chart">
 							</div>
+                            <div class="balanceTile">
+                                <div class="tileDescribe">
+                                    Bilans bierzącego miesiąca:</div>
+                                <?php
+                                
+                                $balance = $_SESSION['incomeSum'] - $_SESSION['expenseSum'];
+                                echo $balance." zł";
+                                
+                                ?>
+                            </div>
 						</div>
 						</a>
 					</div>
@@ -200,8 +284,8 @@
       </div>
       <div class="modal-body">
         <form method="post" action="addNewExpense.php">
-			Kwota transakcji, PLN: <br/> <input value="0" type="number" name="incomeAmount" step="0.01" min="0.01" /> <br/> 
-			Data transakcji: <br/> <input type="date" name="date"  /> <br/>
+			Kwota transakcji, PLN: <br/> <input value="0" type="number" name="expenseAmount" step="0.01" min="0.01" /> <br/> 
+			Data transakcji: <br/> <input type="date" value="<?php echo date('Y-m-d'); ?>" name="expenseDate"  /> <br/>
 			Cel: <br />
             <?php
                     require_once "connect.php";
@@ -243,7 +327,7 @@
                             if(!$catergories) throw new Exception($connection->error);
                             $howManyRows = $catergories->num_rows;
                             echo 'Metoda płatności <br />';
-                            echo '<select name="paymentMethods">';
+                            echo '<select name="paymentMethod">';
                             for ($i = 1; $i <= $howManyRows; $i++) 
                             {
                                 $categoryRecord = $catergories->fetch_assoc();
@@ -261,7 +345,7 @@
                             echo '<br />Informacja deweloperska:'.$e;
                         }
                     ?> 
-            Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz" /> <br/>
+            Komentarz do transakcji: <br/> <input type="text" name="expenseComment" placeholder="Twój komentarz" /> <br/>
             
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
@@ -271,6 +355,7 @@
     </div>
   </div>
 </div>
+    </div>
 	
 <div class="modal fade" id="changePassModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
