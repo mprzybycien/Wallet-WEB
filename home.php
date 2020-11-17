@@ -55,7 +55,7 @@
 						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"> Zarządzaj kontem  </a>
 						
 						<div class="dropdown-menu" aria-labelledby="submenu">
-							<a class="dropdown-item" data-toggle="modal" data-target="#changePassModal"> Zmień hasło </a>
+							<a href="#" class="dropdown-item" data-toggle="modal" data-target="#changePassModal"> Zmień hasło </a>
                             <a class="dropdown-item" href="incomesCategories.php"> Kategorie przychodów </a>
                             <a class="dropdown-item" href="expensesCategories.php"> Kategorie wydatków </a>
                             <a class="dropdown-item" href="methodsCategories.php"> Kategorie metod płatności </a>
@@ -108,12 +108,19 @@
                                 $actualDate = date('Ymd');
                                 $userId = $_SESSION['id'];
                                     
-                                $result = $connection->query("SELECT incomes.user_id, SUM(incomes.amount) AS incomeSum FROM incomes WHERE date_of_income>='$monthStartDate'");
+                                $result = $connection->query("
+                                SELECT incomes.user_id, SUM(incomes.amount) 
+                                AS incomeSum 
+                                FROM incomes 
+                                WHERE date_of_income>='$monthStartDate'
+                                AND incomes.user_id='$userId'");
                                 
                                 $record = $result->fetch_assoc();
                                     
                                 $_SESSION['incomeSum'] = $record['incomeSum'];   
-                                echo $_SESSION['incomeSum']." zł";
+                                
+                                if($_SESSION['incomeSum'] == 0) echo "0 zł";
+                                else echo $_SESSION['incomeSum']." zł";
                                 
                                 $connection->close();
                                 
@@ -155,11 +162,19 @@
                                     $actualDate = date('Ymd');
                                     $userId = $_SESSION['id'];
 
-                                    $result = $connection->query("SELECT expenses.user_id, SUM(expenses.amount) AS expenseSum FROM expenses WHERE date_of_expense>='$monthStartDate'");
+                                    $result = $connection->query("
+                                    SELECT expenses.user_id, SUM(expenses.amount) 
+                                    AS expenseSum 
+                                    FROM expenses 
+                                    WHERE date_of_expense>='$monthStartDate'
+                                    AND expenses.user_id='$userId'");
 
                                     $record = $result->fetch_assoc();
+                                        
                                     $_SESSION['expenseSum'] = $record['expenseSum'];
-                                    echo $_SESSION['expenseSum']." zł";
+                                        
+                                    if($_SESSION['expenseSum'] == 0) echo "0 zł";
+                                    else echo $_SESSION['expenseSum']." zł";
 
                                     $connection->close();
 
@@ -176,7 +191,7 @@
 						</div>
 					</div>
 					<div class="col-md-4 btn btn-grey">
-						<a href="balance.html">
+						<a href="balance.php">
 						<div class="tile">
 							Pokaż bilans
 							<div class="img1">
@@ -260,7 +275,7 @@
                 <br/>
                 Data transakcji: <br />
                 <input type="date" value="<?php echo date('Y-m-d'); ?>" name="incomeDate">  
-                Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz" /> <br/>
+                Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz (40 znaków)" maxlength="40"/> <br/>
 		
       </div>
       <div class="modal-footer">
@@ -345,7 +360,7 @@
                             echo '<br />Informacja deweloperska:'.$e;
                         }
                     ?> 
-            Komentarz do transakcji: <br/> <input type="text" name="expenseComment" placeholder="Twój komentarz" /> <br/>
+            Komentarz do transakcji: <br/> <input type="text" name="expenseComment" placeholder="Twój komentarz (40 znaków)" maxlength="40" /> <br/>
             
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>

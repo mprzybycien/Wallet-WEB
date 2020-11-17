@@ -29,7 +29,7 @@
 	
 		<nav class="navbar navbar-light bg-secondary navbar-expand-lg">
 		
-			<a class="navbar-brand" href="#"><img src="img/logo.png" height="70" alt=""> </a>
+			<a class="navbar-brand" href="home.php"><img src="img/logo.png" height="70" alt=""> </a>
 		
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
 				<span class="navbar-toggler-icon"></span>
