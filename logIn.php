@@ -27,7 +27,6 @@ if ( $connection->connect_errno != 0 ) {
         sprintf( "SELECT*FROM users WHERE login='%s'",
         mysqli_real_escape_string( $connection, $login ) ) ) ) {
             $howManyUsers = $result->num_rows;
-                     //echo "gówno"; exit();
             if ($howManyUsers>0 ) {
                 $wiersz = $result->fetch_assoc();
    
@@ -58,4 +57,4 @@ if ( $connection->connect_errno != 0 ) {
         $connection->close();
     }
     }
-    ?>
+?>

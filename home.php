@@ -48,14 +48,17 @@
 				<ul class="navbar-nav mr-auto">
 				
 					<li class="nav-item ">
-						<a class="nav-link" href="home.html"> Home </a>
+						<a class="nav-link" href="home.php"> Home </a>
 					</li>
 				
 					<li class="nav-item dropdown ">
 						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"> Zarządzaj kontem  </a>
 						
 						<div class="dropdown-menu" aria-labelledby="submenu">
-							<a class="dropdown-item" data-toggle="modal" href="#" data-target="#changePassModal"> Zmień hasło </a>
+							<a href="#" class="dropdown-item" data-toggle="modal" data-target="#changePassModal"> Zmień hasło </a>
+                            <a class="dropdown-item" href="incomesCategories.php"> Kategorie przychodów </a>
+                            <a class="dropdown-item" href="expensesCategories.php"> Kategorie wydatków </a>
+                            <a class="dropdown-item" href="methodsCategories.php"> Kategorie metod płatności </a>
 						</div>
 						
 					</li>
@@ -68,7 +71,6 @@
 						<a class="nav-link" href="logOut.php"> 
                             <?php echo "Wyloguj się! (".$_SESSION['user'].")"; ?> 
                         </a>
-						
 					</li>
 				</ul>
 			</div>
@@ -76,7 +78,9 @@
 		</nav>
 	
 	</header>
+
 	<main>
+        <!--<div class="mainContainer">-->
 		<section class="tiles">
 			<div class="container-fluid">
 				<div class="row">
@@ -86,6 +90,51 @@
 							<div class="img1">
 							<img src="img/income.png" alt="income">
 							</div>
+                            <div class="incomeTile">
+                                <div class="tileDescribe">Suma przychodów w bierzącym miesiącu:</div>
+                            
+                                <?php
+                                require_once "connect.php";
+                                mysqli_report(MYSQLI_REPORT_STRICT);
+                                try
+                                {
+                                $connection = @new mysqli( $host, $db_user, $db_password, $db_name );
+
+                                if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());
+
+    
+                                else {
+                                $monthStartDate = date('Ym00');
+                                $actualDate = date('Ymd');
+                                $userId = $_SESSION['id'];
+                                    
+                                $result = $connection->query("
+                                SELECT incomes.user_id, SUM(incomes.amount) 
+                                AS incomeSum 
+                                FROM incomes 
+                                WHERE date_of_income>='$monthStartDate'
+                                AND incomes.user_id='$userId'");
+                                
+                                $record = $result->fetch_assoc();
+                                    
+                                $_SESSION['incomeSum'] = $record['incomeSum'];   
+                                
+                                if($_SESSION['incomeSum'] == 0) echo "0 zł";
+                                else echo $_SESSION['incomeSum']." zł";
+                                
+                                $connection->close();
+                                
+                                }
+                                }
+                                catch(Exception $e)
+                                {
+                                    echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności i prosimy o rejestrację w innym terminie </span>';
+                                    echo '<br />Informacja deweloperska:'.$e;
+                                }
+                                
+                                ?>
+                                
+                            </div>
 						</div>
 						
 					</div>
@@ -95,21 +144,76 @@
 							<div class="img1">
 								<img src="img/expense.png" alt="expense">
 							</div>
+                            <div class="expenseTile">
+                                <div class="tileDescribe">
+                                    Suma wydatków w bierzącym miesiącu:</div>
+                                    <?php
+                                    require_once "connect.php";
+                                    mysqli_report(MYSQLI_REPORT_STRICT);
+                                    try
+                                    {
+                                    $connection = @new mysqli( $host, $db_user, $db_password, $db_name );
+
+                                    if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());
+
+
+                                    else {
+                                    $monthStartDate = date('Ym00');
+                                    $actualDate = date('Ymd');
+                                    $userId = $_SESSION['id'];
+
+                                    $result = $connection->query("
+                                    SELECT expenses.user_id, SUM(expenses.amount) 
+                                    AS expenseSum 
+                                    FROM expenses 
+                                    WHERE date_of_expense>='$monthStartDate'
+                                    AND expenses.user_id='$userId'");
+
+                                    $record = $result->fetch_assoc();
+                                        
+                                    $_SESSION['expenseSum'] = $record['expenseSum'];
+                                        
+                                    if($_SESSION['expenseSum'] == 0) echo "0 zł";
+                                    else echo $_SESSION['expenseSum']." zł";
+
+                                    $connection->close();
+
+                                    }
+                                    }
+                                    catch(Exception $e)
+                                    {
+                                        echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności i prosimy o rejestrację w innym terminie </span>';
+                                        echo '<br />Informacja deweloperska:'.$e;
+                                    }
+
+                                    ?>
+                            </div>
 						</div>
 					</div>
 					<div class="col-md-4 btn btn-grey">
-						<a href="balance.html">
+						<a href="balance.php">
 						<div class="tile">
 							Pokaż bilans
 							<div class="img1">
 								<img src="img/chart.png" alt="chart">
 							</div>
+                            <div class="balanceTile">
+                                <div class="tileDescribe">
+                                    Bilans bierzącego miesiąca:</div>
+                                <?php
+                                
+                                $balance = $_SESSION['incomeSum'] - $_SESSION['expenseSum'];
+                                echo $balance." zł";
+                                
+                                ?>
+                            </div>
 						</div>
 						</a>
 					</div>
 					</div>
 				</div>
 		</section>
+       <!-- </div>-->
 		
 	</main>
 	
@@ -128,27 +232,58 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+    <form action="addNewIncome.php" method="post">
       <div class="modal-body">
-        <form>
-			Kwota transakcji, PLN: <br/> <input type="text" name="amount" placeholder="Kwota" /> <br/>
-			Data transakcji: <br/> <input type="date" name="date"  /> <br/>
-			Rodzaj transakcji: <br/> <select class="payment-describe">
-				<option>Pensja</option>
-				<option>Odsetki lokaty</option>
-				<option>Prowizja</option>
-				<option>Premia</option>
-			</select> <br/>
-			Forma płatnosci: <br/> <select>
-				<option>Gotówka</option>
-				<option>Przelew</option>
-			</select>
-		</form>
-      </div>
+			Kwota transakcji, PLN: <br/> <input value="0" type="number" name="incomeAmount" step="0.01" min="0.01" /> <br/>
+			Źródło przychodu: <br/>                 
+                    <?php
+                        require_once "connect.php";
+                        mysqli_report(MYSQLI_REPORT_STRICT);
+                        try
+                        {
+                            $connection =  @new mysqli($host, $db_user, $db_password, $db_name);
+                            if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());    
+                            
+                            $id = $_SESSION['id'];
+                            $catergories = $connection->query
+                            ("
+                            SELECT name FROM incomes_category_assigned_to_users
+                            WHERE incomes_category_assigned_to_users.user_id='$id'
+                            ORDER BY name ASC
+                            ");
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary">Dodaj!</button>
+                            if(!$catergories) throw new Exception($connection->error);
+                            $howManyRows = $catergories->num_rows;
+
+                            echo '<select name="incomeSource">';
+                            for ($i = 1; $i <= $howManyRows; $i++) 
+                            {
+                                $categoryRecord = $catergories->fetch_assoc();
+                                echo '<option>';
+                                echo $categoryRecord['name'];
+                                echo '</option>';
+                            }
+                            echo '</select>';
+                            $connection->close();
+                        }
+                        catch(Exception $e)
+                        {
+                            echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności</span>';
+                            echo '<br />Informacja deweloperska:'.$e;
+                        }
+                    ?> 
+                <br/>
+                Data transakcji: <br />
+                <input type="date" value="<?php echo date('Y-m-d'); ?>" name="incomeDate">  
+                Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz (40 znaków)" maxlength="40"/> <br/>
+		
       </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        <!--<button type="submit" class="btn btn-primary">Dodaj!</button>-->
+          <input type="submit" value="Dodaj!">
+        </div>
+        </form>
     </div>
   </div>
 </div>
@@ -163,32 +298,79 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
-			Kwota transakcji, PLN: <br/> <input type="text" name="amount" placeholder="Kwota" /> <br/>
-			Data transakcji: <br/> <input type="date" name="date"  /> <br/>
-			Cel: <br/> <select class="payment-describe">
-				<option>Czynsz</option>
-				<option>Prąd</option>
-				<option>Kablówka</option>
-				<option>Żywność</option>
-				<option>Ubrania</option>
-				<option>Rozrywki</option>
-			</select> <br/>
-			Forma płatnosci: <br/> <select>
-				<option>Płatność kartą</option>
-				<option>Płatność gotówką</option>
-				<option>Przelew</option>
-			</select>
-		</form>
-      </div>
+        <form method="post" action="addNewExpense.php">
+			Kwota transakcji, PLN: <br/> <input value="0" type="number" name="expenseAmount" step="0.01" min="0.01" /> <br/> 
+			Data transakcji: <br/> <input type="date" value="<?php echo date('Y-m-d'); ?>" name="expenseDate"  /> <br/>
+			Cel: <br />
+            <?php
+                    require_once "connect.php";
+                        mysqli_report(MYSQLI_REPORT_STRICT);
+                        try
+                        {
+                            $connection =  @new mysqli($host, $db_user, $db_password, $db_name);
+                            if ( $connection->connect_errno != 0 ) throw new Exception (mysqli_connect_errno());    
+                            $id = $_SESSION['id'];
+                        
+                            $catergories = $connection->query
+                            ("
+                            SELECT name FROM expenses_category_assigned_to_users
+                            WHERE expenses_category_assigned_to_users.user_id='$id'
+                            ORDER BY name ASC
+                            ");
 
+                            if(!$catergories) throw new Exception($connection->error);
+                            $howManyRows = $catergories->num_rows;
+
+                            echo '<select name="expenseTarget">';
+                            for ($i = 1; $i <= $howManyRows; $i++) 
+                            {
+                                $categoryRecord = $catergories->fetch_assoc();
+                                echo '<option>';
+                                echo $categoryRecord['name'];
+                                echo '</option>';
+                            }
+                            echo '</select> <br />';
+                            
+                            
+                            $catergories = $connection->query
+                            ("
+                            SELECT name FROM payment_methods_assigned_to_users
+                            WHERE payment_methods_assigned_to_users.user_id='$id'
+                            ORDER BY name ASC
+                            ");
+
+                            if(!$catergories) throw new Exception($connection->error);
+                            $howManyRows = $catergories->num_rows;
+                            echo 'Metoda płatności <br />';
+                            echo '<select name="paymentMethod">';
+                            for ($i = 1; $i <= $howManyRows; $i++) 
+                            {
+                                $categoryRecord = $catergories->fetch_assoc();
+                                echo '<option>';
+                                echo $categoryRecord['name'];
+                                echo '</option>';
+                            }
+                            echo '</select>';
+                            
+                            $connection->close();
+                        }
+                        catch(Exception $e)
+                        {
+                            echo '<span style="color:red;">Błąd serwera, przepraszamy za niedogodności</span>';
+                            echo '<br />Informacja deweloperska:'.$e;
+                        }
+                    ?> 
+            Komentarz do transakcji: <br/> <input type="text" name="expenseComment" placeholder="Twój komentarz (40 znaków)" maxlength="40" /> <br/>
+            
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary">Dodaj!</button>
+        <input type="submit" value="Dodaj!">
       </div>
+    </form>
     </div>
   </div>
 </div>
+    </div>
 	
 <div class="modal fade" id="changePassModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -199,19 +381,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form>
+        <form action="changePass.php" method="post">
+            <div class="modal-body">
+            <input type="password" name="oldPassword" placeholder="Aktualne hasło" /> <br/>
 			<input type="password" name="newPassword" placeholder="Nowe hasło" /> <br/>
-			<input type="password" name="ConfirmPassword" placeholder="Potwierdź hasło" /> <br/>
-		</form>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-          <button type="button" class="btn btn-primary">Zmień hasło!</button>
-      </div>
+			<input type="password" name="ConfirmedPassword" placeholder="Potwierdź hasło" /> <br/>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+            <input type="submit" value="Zmień!">
+            </div>
+            </div>
+        </form>
     </div>
   </div>
-</div>	    
+</div>
+<div class=error>
+    <?php 
+    if(isset($_SESSION['formError'])) echo $_SESSION['formError'];  
+    unset ($_SESSION['formError']);
+    ?>
+</div>
+<div class=success>
+    <?php 
+    if(isset($_SESSION['formSuccess'])) echo $_SESSION['formSuccess'];
+    unset ($_SESSION['formSuccess']);
+    ?>
+</div>
 </body>
 </html>
+

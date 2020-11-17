@@ -14,9 +14,20 @@ h1
 	margin: 20px;
 }
 
+.mainContainer
+{
+    width: 2000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .tiles
 {
 	text-align: center;
+    /*width : 1800px;
+    margin-left: auto;
+    margin-right: auto;*/
+    
 }
 
 .tiles img
@@ -32,19 +43,44 @@ h1
 	
 }
 
+.error
+{
+    color: red;
+    padding: 5px;
+    font-size: 20px;
+    margin-top: 20px;;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    text-align: center
+}
+.success
+{
+    color: lawngreen;
+    padding: 5px;
+    font-size: 20px;
+    margin-top: 20px;;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    text-align: center
+}
+
 .tile
 {
 	color: black;
+    border-radius: 7px;
 	font-size: 36px;
 	margin-top: 30px;
 	width: 100%;
-	height: 350px;
+	height: 410px;
 	background-color: #DCDCDC;
 	float: left;
 	text-align: center;
-	padding-top: 100px;
+	padding-top: 60px;
 	padding-left: 20px;
 	padding-right: 20px;
+    
 }
 
 .tile:hover
@@ -52,7 +88,65 @@ h1
 	cursor: pointer;
 	background-color: #3E96FF;
 }
+.tile .incomeTile
+{
+    background-color: green;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: auto;
+	height: 100px;
+    border-color: black;
+    border-radius: 7px;
+    color: white;
+    padding-top: 15px;
+}
 
+.tile .incomeTile .tileDescribe
+{
+    color: white;
+    font-size: 12px;
+}
+
+.tile .expenseTile
+{
+    background-color: red;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: auto;
+	height: 100px;
+    border-color: black;
+    border-radius: 7px;
+    color: white;
+    padding-top: 15px;
+}
+
+.tile .expenseTile .tileDescribe
+{
+    color: white;
+    font-size: 12px;
+}
+
+.tile .balanceTile
+{
+    background-color: #4d4d4d;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: auto;
+	height: 100px;
+    border-color: black;
+    border-radius: 7px;
+    color: white;
+    padding-top: 15px;
+}
+
+.tile .balanceTile .tileDescribe
+{
+    color: white;
+    font-size: 12px;
+}
 
 .img1
 {
@@ -72,6 +166,7 @@ h1
 input[type=text],
 input[type=date],
 input[type=password],
+input[type=number],
 select
 {
 	background-color: #efefef;
@@ -83,6 +178,7 @@ select
 input[type=text]:focus,
 input[type=date]:focus,
 input[type=password]:focus,
+input[type=number]:focus,
 select:focus
 {
 	-webkit-box-shadow: 0px 0px 10px 3px rgba(204,204,204,0.55);
@@ -91,3 +187,34 @@ select:focus
 	background-color:  #CDE4FF;
 	color: #000099;
 }
+
+input[type=submit]
+{
+    width: 100px;
+    height: 38px;
+    background-color: #0563e8;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 4px;
+}
+
+input[type=submit]:hover
+{
+    background-color: #3388FF;
+}
+
+.table
+{
+    margin-top: 50px;
+    color: white;
+    width: 1600px;
+    margin-left: auto;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 25px;
+}
+
