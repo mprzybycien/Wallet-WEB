@@ -84,6 +84,8 @@ $monthStartDate = date('Ym00');
 $previousMonthStart = date("Y-m-d", strtotime("first day of previous month"));
 $previousMonthEnd = date("Y-m-d", strtotime("last day of previous month"));
 
+if(isset($_SESSION['date1']) && isset($_SESSION['date1']))
+{
 if($_SESSION['date1']<=$_SESSION['date2']) 
 {
     $date1 = $_SESSION['date1'];
@@ -94,7 +96,7 @@ else
     $date2 = $_SESSION['date1'];
     $date1 = $_SESSION['date2'];
 }
-
+}
 
 try
 {
@@ -207,7 +209,8 @@ try
         
         if(!isset($_SESSION['defaultFilter']) || $_SESSION['transactionType']=='expenses')
         {
-        if(($_SESSION['peroidFlag']==1) || !isset($_SESSION['defaultFilter'])) echo 'Zestawienie wydatków z bierzącego miesiąca:';
+        if(!isset($_SESSION['defaultFilter'])) echo 'Zestawienie wydatków z bierzącego miesiąca:';
+        else if($_SESSION['peroidFlag']==1) echo 'Zestawienie wydatków z bierzącego miesiąca:';
         else if ($_SESSION['peroidFlag']==2) echo 'Zestawienie wydatków z poprzedniego miesiąca:';
         else if ($_SESSION['peroidFlag']==3) echo 'Zestawienie wydatków z okresu od '.$date1.' do '.$date2.':';
             
