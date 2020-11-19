@@ -213,7 +213,7 @@
                     unset($_SESSION['e_login']);
                 }
                 ?>
-			<input type="text" value="<?php
+			<input type="email" value="<?php
                     if(isset($_SESSION['fr_email']))
                     {
                         echo $_SESSION['fr_email'];

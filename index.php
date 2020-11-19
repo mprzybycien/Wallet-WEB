@@ -25,7 +25,7 @@
 		<input type="text" name="login" placeholder="login" onfocus="this.placeholder=''" onblur="this.placeholder='login'" />
 		<input type="password" name="password"  placeholder="hasło" onfocus="this.placeholder=''" onblur="this.placeholder='hasło'"/>
 		<input type="submit" value="Zaloguj się"/>
-		<input type="button" onClick="location.href='SignUp.php'" value="Zarejestruj się">
+		<input type="button" onClick="location.href='signUp.php'" value="Zarejestruj się">
 	</form>
 	</div>
     <div class="loginError">

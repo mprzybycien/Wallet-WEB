@@ -50,7 +50,8 @@ img {
 }
 
 input[type=text],
-input[type=password]
+input[type=password],
+input[type=email]
 
 /*wystylizuje tylko wskazane rodzaje inputów*/
     {
@@ -69,7 +70,8 @@ input[type=password]
 }
 
 input[type=text]:focus,
-input[type=password]:focus
+input[type=password]:focus,
+input[type=email]:focus
 
 /*wyróznienie edytowanego pola*/
     {

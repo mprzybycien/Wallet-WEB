@@ -14,6 +14,7 @@
 
     <link rel="shortcut icon" href="img/logo.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontello.css" type="text/css" />
     <link rel="stylesheet" href="main.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 
@@ -64,9 +65,9 @@
 
     </header>
 
-    <main>
-        <div class="table-responsive">
-            <table class="table table-striped">
+<main>
+<div class="table-responsive">
+<table class="table table-sm table-hover table-dark">
 
 
 <?php
@@ -76,7 +77,7 @@ session_start();
 require_once "connect.php";
 
 $connection = @new mysqli( $host, $db_user, $db_password, $db_name );
-
+ 
 mysqli_report(MYSQLI_REPORT_STRICT);+
 
 $userId = $_SESSION['id'];
@@ -209,21 +210,26 @@ try
         
         if(!isset($_SESSION['defaultFilter']) || $_SESSION['transactionType']=='expenses')
         {
-        if(!isset($_SESSION['defaultFilter'])) echo 'Zestawienie wydatków z bierzącego miesiąca:';
-        else if($_SESSION['peroidFlag']==1) echo 'Zestawienie wydatków z bierzącego miesiąca:';
-        else if ($_SESSION['peroidFlag']==2) echo 'Zestawienie wydatków z poprzedniego miesiąca:';
-        else if ($_SESSION['peroidFlag']==3) echo 'Zestawienie wydatków z okresu od '.$date1.' do '.$date2.':';
-            
+        if(!isset($_SESSION['defaultFilter'])) $tabletitle="Zestawienie wydatków z bierzącego miesiąca";
+        else if($_SESSION['peroidFlag']==1) $tabletitle='Zestawienie wydatków z bierzącego miesiąca';
+        else if ($_SESSION['peroidFlag']==2) $tabletitle='Zestawienie wydatków z poprzedniego miesiąca';
+        else if ($_SESSION['peroidFlag']==3) $tabletitle='Zestawienie wydatków z okresu od '.$date1.' do '.$date2; 
         if($howManyRecords>0) 
             {
             echo<<<END
             <thead>
                 <tr>
-                <th>Kategoria wydatku </th>
+                <td colspan="5">
+                <center>$tabletitle</center>
+                <td>
+                </tr>
+                <tr>
+                <th>Cel </th>
                 <th>Metoda płatności </th>
                 <th>Data</th>
                 <th>Kwota</th>
                 <th>Komentarz</th>
+                <th>Edytuj/usuń</th>
                 </tr>
             </thead>
             END;
@@ -245,6 +251,11 @@ try
                 <td>$expenseDate</td>
                 <td>$expenseAmount zł</td>
                 <td>$expenseComment</td>
+                <td>
+                <div class=categoryEdit><a href="#" class=buttonLink title="Edytuj"><i class="icon-pencil"></i></a></div>
+                <div class=categoryRemove><a href="#" class=buttonLink title="Usuń"><i class="icon-trash"></i></a></div>
+                <div style="clear: both;"></div>
+                </td>
                 </tr>
                 END; 
             }}else echo "<br />Nie znaleziono żadnego rekordu w bazie";
@@ -253,20 +264,25 @@ try
             
         }
         else if ($_SESSION['transactionType'] == 'incomes')
-        {
-        if(($_SESSION['peroidFlag']==1) || !isset($_SESSION['defaultFilter'])) echo 'Zestawienie przychodów z bierzącego miesiąca:';
-        else if ($_SESSION['peroidFlag']==2) echo 'Zestawienie przychodów z poprzedniego miesiąca:';
-        else if ($_SESSION['peroidFlag']==3) echo 'Zestawienie przychodów z okresu od '.$date1.' do '.$date2.':';
-            
+        { 
+        if(($_SESSION['peroidFlag']==1) || !isset($_SESSION['defaultFilter'])) $tabletitle='Zestawienie przychodów z bierzącego miesiąca:';
+        else if ($_SESSION['peroidFlag']==2) $tabletitle='Zestawienie przychodów z poprzedniego miesiąca:';
+        else if ($_SESSION['peroidFlag']==3) $tabletitle='Zestawienie przychodów z okresu od '.$date1.' do '.$date2.':';    
             if($howManyRecords>0) 
             {
             echo<<<END
             <thead>
                 <tr>
-                <th>Kategoria przychodu </th>
+                <td colspan="4">
+                <center>$tabletitle</center>
+                <td>
+                </tr>
+                <tr>
+                <th>Źródło </th>
                 <th>Data</th>
                 <th>Kwota</th>
                 <th>Komentarz</th>
+                <th>Edytuj/usuń</th>
                 </tr>
             </thead>
             END;
@@ -286,6 +302,11 @@ try
                 <td>$incomeDate</td>
                 <td>$incomeAmount zł</td>
                 <td>$incomeComment</td>
+                <td>
+                <div class=categoryEdit><a href="#" class=buttonLink title="Edytuj"><i class="icon-pencil"></i></a></div>
+                <div class=categoryRemove><a href="#" class=buttonLink title="Usuń"><i class="icon-trash"></i></a></div>
+                <div style="clear: both;"></div>
+                </td>
                 </tr>
                 END;
             }}else echo "<br />Nie znaleziono żadnego rekordu w bazie";

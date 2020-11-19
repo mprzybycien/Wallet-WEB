@@ -39,7 +39,7 @@
 	<div class="container">
 		<img src="img/logo.png" alt="logo">
 		<center>Dziękujęmy za rejestrację w serwisie. Możesz teraz zalogować się na swoje konto!</center>
-		<input type="button" onClick="location.href='Index.php'" value="Zaloguj się na swoje konto">
+		<input type="button" onClick="location.href='index.php'" value="Zaloguj się na swoje konto">
 	</div>
 
 </body>

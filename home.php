@@ -275,7 +275,7 @@
                 <br/>
                 Data transakcji: <br />
                 <input type="date" value="<?php echo date('Y-m-d'); ?>" name="incomeDate">  
-                Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz (40 znaków)" maxlength="40"/> <br/>
+                <br/>Komentarz do transakcji: <br/> <input type="text" name="incomeComment" placeholder="Twój komentarz (40 znaków)" maxlength="40"/> <br/>
 		
       </div>
       <div class="modal-footer">
@@ -360,7 +360,7 @@
                             echo '<br />Informacja deweloperska:'.$e;
                         }
                     ?> 
-            Komentarz do transakcji: <br/> <input type="text" name="expenseComment" placeholder="Twój komentarz (40 znaków)" maxlength="40" /> <br/>
+            <br/>Komentarz do transakcji: <br/> <input type="text" name="expenseComment" placeholder="Twój komentarz (40 znaków)" maxlength="40" /> <br/>
             
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
